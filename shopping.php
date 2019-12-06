@@ -23,8 +23,8 @@ if (!empty($result)){
     <th>ID</th>
     <th>Product</th>
     <th>Price</th>
-    <th>Rating</th>
     <th>In Stock</th>
+    <th>Rating</th>
     <th>Add to Cart</th>
     </tr>";
 
