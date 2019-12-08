@@ -15,6 +15,14 @@ if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
 echo $user . "'s Cart";
+?>
+<br>
+<br>
+<form action="shopping.php" method="post">
+	<input type="submit" value="Continue Shopping"/>
+</form>
+<br>
+<?php
 //$sql = "SELECT PID FROM Cart WHERE (CID = '$user')";
 $sql = "SELECT a.CartID, b.p_name, b.price from Cart a, Products b where a.PID = b.PID and a.CID = '$user'";
 $result = $conn->query($sql);
