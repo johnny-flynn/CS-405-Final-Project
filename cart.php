@@ -1,7 +1,6 @@
 <html>
 <body>
 <Title>ToysRUs - Shopping</Title>
-<H1>User's Cart</H1>
 <?php
 //include "shopping.php";
 //include "search_query";
@@ -15,13 +14,16 @@ $conn= new mysqli($host,$userName,$Pass,$DB);
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT PID FROM Cart WHERE (CID = '$user')";
+echo $user . "'s Cart";
+//$sql = "SELECT PID FROM Cart WHERE (CID = '$user')";
+$sql = "SELECT a.CartID, b.p_name, b.price from Cart a, Products b where a.PID = b.PID and a.CID = '$user'";
 $result = $conn->query($sql);
-$results = implode(",", $result);
-$sql2 = "SELECT * FROM Products where PID in ('$results')";
-$productsincart = $conn->query($sql2);
+//$string = implode(",", $result);
+//$productsincart= msqli_query("SELECT * FROM Products where PID in ('$string')");
+//echo "got here";
+//$productsincart = $conn->query($sql2);
 //echo $productsincart;
-if (!empty($productsincart)){
+if (!empty($result)){
 
 echo "<table border = '1'>
     <tr>
@@ -31,19 +33,15 @@ echo "<table border = '1'>
     </tr>";
     
 
-    while($row = conn_fetch_array($productsincart))
+    while($row = mysqli_fetch_array($result))
     {
-        //$PID = $rows['PID'];
+        $CartID = $row['CartID'];
         echo "<tr>";
         echo "<td>" . $row['p_name'] . "</td>";
         echo "<td>" . $row['price'] . "</td>";
-        echo "<td>" . "<form>" . "<form action='remove.php' method='post'>" . 
-        "<input type='submit' name='item' value='Remove' align='Center'>" . "</form>";
+        echo "<td>" ?><a href="removefromcart.php?CartID=<?php echo $CartID; ?>" class = "btn btn-primary" role="button">Remove</a><?php "</td>";
         echo "</tr>";
         echo "<tr>";
-        foreach ($row as $field => $value) {
-            echo "<td>" . $value . "</td>";
-        }
         echo "</tr>";
     }
     echo "</table>";
