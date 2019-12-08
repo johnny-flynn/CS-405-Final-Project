@@ -33,7 +33,7 @@ echo "<table border = '1'>
 
     while($row = conn_fetch_array($productsincart))
     {
-        $PID = $rows['PID'];
+        //$PID = $rows['PID'];
         echo "<tr>";
         echo "<td>" . $row['p_name'] . "</td>";
         echo "<td>" . $row['price'] . "</td>";
