@@ -1,4 +1,5 @@
 <?php
+session_start();
 // This is a basic script showing how to connect to a local MySQL database
 // and execute a query
 
@@ -8,6 +9,8 @@ $Prof_Name = $_POST["username"];
 $inputUsername = $_POST["username"];
 $inputPassword = $_POST["password"];
 $inputGuest = $_POST["guest"];
+$code = $_POST["123"];
+$_SESSION["username"] = $_POST["username"];
 //hello
 
 
@@ -32,6 +35,8 @@ else {
 	if ($result->num_rows > 0){
 		while($row = $result->fetch_assoc()) {
 			echo "Welcome " . $row["Cname"]. "<br>";
+			echo "Code is: " . $code;
+			/*?><a href="shopping.php?user=<?php echo $inputUsername;*/
 			header("Location: http://172.31.145.13/shopping.php");
 			die();
 		}

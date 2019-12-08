@@ -15,6 +15,8 @@ $mysqli = new mysqli($host, $userName,$Pass,$DB);
 // Check for connection error
 // If there is an error we will use $mysqli->connect_error
 // to print the cause of the error
+$user = $_GET['user'];
+echo $user;
 $result = mysqli_query($mysqli,"SELECT * FROM Products ORDER BY PID ASC");
 if (!empty($result)){
 
