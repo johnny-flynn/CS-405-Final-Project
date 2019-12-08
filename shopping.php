@@ -4,6 +4,7 @@
 <H1>Welcome to ToysRUs</H1>
 
 <?php
+session_start();
 // Now, we will create a mysqli object and connect to database
 $host = 'localhost';//enter hostname
 $userName = 'root';//enter user name of DB
@@ -30,12 +31,14 @@ if (!empty($result)){
 
     while($row = mysqli_fetch_array($result))
     {
+        $PID = $row['PID'];
         echo "<tr>";
         echo "<td>" . $row['PID'] . "</td>";
         echo "<td>" . $row['p_name'] . "</td>";
         echo "<td>" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
         echo "<td>" . $row['review_score'] . "</td>";
+        echo "<td>" ?><a href="addtocart.php?item=<?php echo $PID; ?>" class = "btn btn-primary" role="button">Add</a><?php "</td>";
         echo "</tr>";
     }
     echo "</table>";
@@ -43,5 +46,8 @@ if (!empty($result)){
     mysqli_close($mysqli);
 }
 ?>
+<form action="cart.php">
+	<input type="submit" value="View Cart" />
+</form>
 </body>
 </html>
