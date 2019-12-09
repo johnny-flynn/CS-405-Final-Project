@@ -5,6 +5,9 @@
 <form action="orders.php" method="post">
 	<input type="submit" value="View your Orders"/>
 </form>
+<form action="cart.php">
+	<input type="submit" value="View Cart" />
+</form>
 <?php
 session_start();
 // Now, we will create a mysqli object and connect to database
@@ -50,8 +53,5 @@ if (!empty($result)){
     mysqli_close($mysqli);
 }
 ?>
-<form action="cart.php">
-	<input type="submit" value="View Cart" />
-</form>
 </body>
 </html>

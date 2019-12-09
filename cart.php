@@ -1,6 +1,7 @@
 <html>
 <body>
 <Title>ToysRUs - Cart</Title>
+<H1>ToysRUs</H1>
 <?php
 //include "shopping.php";
 //include "search_query";
@@ -21,22 +22,28 @@ echo $user . "'s Cart";
 <form action="shopping.php" method="post">
 	<input type="submit" value="Continue Shopping"/>
 </form>
-<br>
-<form action="processorder.php" method="post">
-    Shipping Address: <input type="text" name="address">
-	<input type="submit" value="Order Now"/>
+<form action="orders.php" method="post">
+	<input type="submit" value="View your Orders"/>
 </form>
-<br>
 <?php
 //$sql = "SELECT PID FROM Cart WHERE (CID = '$user')";
 $sql = "SELECT a.CartID, b.p_name, b.price from Cart a, Products b where a.PID = b.PID and a.CID = '$user'";
 $result = $conn->query($sql);
 $total = 0;
+if (mysqli_num_rows($result) == 0){
+    echo "Your cart is empty";
+}
 //$string = implode(",", $result);
 //$productsincart= msqli_query("SELECT * FROM Products where PID in ('$string')");
 //echo "got here";
 //$productsincart = $conn->query($sql2);
 //echo $productsincart;
+else{
+    ?><form action="processorder.php" method="post">
+    Shipping Address: <input type="text" name="address">
+	<input type="submit" value="Order Now"/>
+</form>
+<br><?php
 if (!empty($result)){
 
 echo "<table border = '1'>
@@ -65,8 +72,6 @@ echo "<table border = '1'>
 
     mysqli_close($mysqli);
 }
-else {
-    echo "Your shopping cart is empty.";
 }
 ?>
 </body>

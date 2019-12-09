@@ -29,6 +29,10 @@ $items = implode(",", $string);
 $add = "INSERT INTO Orders(CID, ship_address, price_sum, items) VALUES ('$user', '$address', '$total', '$items')";
             if($conn->query($add) != NULL){
                 echo "got here";
+                $clear = "DELETE FROM Cart where CID = '$user'";
+                if($conn->query($clear) != NULL){
+                echo "got here";
+            }
                 header("Location: http://172.31.145.13/orders.php?status=Ordered");
             }
         }
