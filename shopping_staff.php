@@ -2,19 +2,22 @@
 <body>
 <Title>ToysRUs - Shopping</Title>
 <H1>Welcome to ToysRUs</H1>
-<form action="add_item.html">
+<form align="right" action="sign_in.php">
+	<input type="submit" value="Logout" />
+</form>
+<form action="allorders.php" method="post">
+	<input type="submit" value="Vew All Orders"/>
+</form>
+<form action="add_item.php">
 	<input type="submit" value="Add item" />
 </form>
 
-<form action="shopping_guest.php">
+<form action="update_item.php">
 	<input type="submit" value="Update item" />
 </form>
 
-<form action="shopping_guest.php">
-	<input type="submit" value="View orders" />
-</form>
-
 <?php
+session_start();
 // Now, we will create a mysqli object and connect to database
 $host = 'localhost';//enter hostname
 $userName = 'root';//enter user name of DB
@@ -25,7 +28,18 @@ $mysqli = new mysqli($host, $userName,$Pass,$DB);
 // Check for connection error
 // If there is an error we will use $mysqli->connect_error
 // to print the cause of the error
-$result = mysqli_query($mysqli,"SELECT * FROM Products ORDER BY PID ASC");
+$user = $_GET['user'];
+echo $user;
+?>
+<form action = "" method="post">
+    Filter by searching for the Product ID or the Name: <br>
+    To see all products, hit the submit button<br>
+    Search: <input type = "text" name = "search">
+    <input type = "submit">
+</form>
+<?php
+$inputSearchText = $_POST["search"];
+$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE (PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
 if (!empty($result)){
 
 
@@ -35,15 +49,16 @@ if (!empty($result)){
     <th>Product</th>
     <th>Price</th>
     <th>In Stock</th>
-    <th>Rating</th>
+    <th>Rating/5</th>
     </tr>";
 
     while($row = mysqli_fetch_array($result))
     {
+        $PID = $row['PID'];
         echo "<tr>";
         echo "<td>" . $row['PID'] . "</td>";
         echo "<td>" . $row['p_name'] . "</td>";
-        echo "<td>" . $row['price'] . "</td>";
+        echo "<td>$" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
         echo "<td>" . $row['review_score'] . "</td>";
         echo "</tr>";

@@ -19,6 +19,9 @@ echo $user . "'s Cart";
 ?>
 <br>
 <br>
+<form align="right" action="sign_in.php">
+	<input type="submit" value="Logout" />
+</form>
 <form action="shopping.php" method="post">
 	<input type="submit" value="Continue Shopping"/>
 </form>

@@ -1,7 +1,10 @@
 <html>
 <body>
 <Title>ToysRUs - Shopping</Title>
-<H1>Welcome to ToysRUs</H1>
+<H1>Welcome to ToysRUs</H1><br><br>
+<form align="right" action="sign_in.php">
+	<input type="submit" value="Logout" />
+</form>
 <form action="orders.php" method="post">
 	<input type="submit" value="View your Orders"/>
 </form>
@@ -22,7 +25,16 @@ $mysqli = new mysqli($host, $userName,$Pass,$DB);
 // to print the cause of the error
 $user = $_GET['user'];
 echo $user;
-$result = mysqli_query($mysqli,"SELECT * FROM Products ORDER BY PID ASC");
+?>
+<form action = "" method="post">
+    Filter by searching for the Product ID or the Name: <br>
+    To see all products, hit the submit button<br>
+    Search: <input type = "text" name = "search">
+    <input type = "submit">
+</form>
+<?php
+$inputSearchText = $_POST["search"];
+$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE (PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
 if (!empty($result)){
 
 

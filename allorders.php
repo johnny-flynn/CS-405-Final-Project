@@ -15,31 +15,28 @@ $conn= new mysqli($host,$userName,$Pass,$DB);
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
-echo $user . "'s Past Orders";
 ?>
+<H2>All Orders</H2>
 <br>
 <br>
 <form align="right" action="sign_in.php">
 	<input type="submit" value="Logout" />
 </form>
-<form action="shopping.php" method="post">
+<form action="shopping_staff.php" method="post">
 	<input type="submit" value="Continue Shopping"/>
 </form>
-<form action="cart.php" method="post">
-	<input type="submit" value="View Cart"/>
-</form>
 <?php
-$sql = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and (SStatus = 0 or SStatus = 1)";
+$sql = "SELECT * from Orders where SStatus = 1";
 $result = $conn->query($sql);
-$sql2 = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and SStatus = 2";
+$sql2 = "SELECT * from Orders where SStatus = 2";
 $result2 = $conn->query($sql2);
 $total = 0;
 if (mysqli_num_rows($result) == 0 && mysqli_num_rows($result2) == 0){
-    echo "You have no order history.";
+    echo "There are no orders.";
 }
 else{
 if (mysqli_num_rows($result) != 0){
-?><h2>Pending Orders</h2><?php
+?><h2>Waiting to ship</h2><?php
 
 echo "<table border = '1'>
     <tr>
@@ -60,7 +57,7 @@ echo "<table border = '1'>
         echo "<td>" . $row['Odate'] . "</td>";
         echo "<td>$" . $row['price_sum'] . "</td>";
         echo "<td>" . $row['items'] . "</td>";
-        echo "<td>" ?><a href="cancelorder.php?OrderID=<?php echo $OrderID; ?>" class = "btn btn-primary" role="button">Cancel</a><?php "</td>";
+        echo "<td>" ?><a href="shiporder.php?OrderID=<?php echo $OrderID; ?>" class = "btn btn-primary" role="button">Ship</a><?php "</td>";
         echo "</tr>";
         echo "<tr>";
         echo "</tr>";

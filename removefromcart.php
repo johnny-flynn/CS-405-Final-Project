@@ -8,19 +8,20 @@
             $userName = 'root';//enter user name of DB
             $Pass = 'pwd'; //enter password
             $DB = 'Econ'; //Enter database name
-            $conn= new mysqli($host,$userName,$Pass,$DB);
-            if($conn->connect_error){
-                die("Connection failed: " . $conn->connect_error);
+            $mysqli= new mysqli($host,$userName,$Pass,$DB);
+            if($mysqli->connect_error){
+                die("Connection failed: " . $mysqli->connect_error);
             }
-            //$sql = "SELECT CartID FROM Shopping_Cart WHERE (CID = '1111')";
-            //$result = $conn->query($sql);
-            //while($row = mysqli_fetch_array($result)){
-            //    $cart = $row['CartID'];
-            //}
-            //$add = "INSERT INTO Shopping_Cart (PID) VALUES ('$items') SELECT WHERE (CartID = '$cart')";
-            //$add = "INSERT INTO Shopping_Cart(CartID, PID, CID) VALUES ('0', '$items', '1111') ON DUPLICATE KEY UPDATE 'CartID' = 'CartID' + 1";
             $add = "DELETE FROM Cart WHERE CartID = $Cart";
-            if($conn->query($add) != NULL){
+            $sql = "SELECT PID FROM Cart Where CartID= $Cart";
+            $result = $mysqli->query($sql);
+            $row = mysqli_fetch_array($result);
+            $item = $row['PID'];
+            $increase = "UPDATE Products SET quantity = quantity + 1 where PID = '$item'";
+            if($mysqli->query($add) != NULL){
+                echo "got here";
+            }
+            if($mysqli->query($increase) != NULL){
                 echo "got here";
             }
 			header('location: cart.php?status=removed');
