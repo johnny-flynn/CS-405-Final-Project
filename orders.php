@@ -1,6 +1,6 @@
 <html>
 <body>
-<Title>ToysRUs - Past Orders</Title>
+<Title>ToysRUs - Orders</Title>
 <H1>ToysRUs</H1>
 <?php
 //include "shopping.php";
@@ -15,7 +15,7 @@ $conn= new mysqli($host,$userName,$Pass,$DB);
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
-echo $user . "'s Past Orders";
+echo $user . "'s Orders";
 ?>
 <br>
 <br>
@@ -29,12 +29,14 @@ echo $user . "'s Past Orders";
 	<input type="submit" value="View Cart"/>
 </form>
 <?php
-$sql = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and (SStatus = 0 or SStatus = 1)";
+$sql = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and SStatus = 0";
 $result = $conn->query($sql);
-$sql2 = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and SStatus = 2";
+$sql2 = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and SStatus = 1";
 $result2 = $conn->query($sql2);
+$sql3 = "SELECT a.* from Orders a, Customers b where a.CID = b.CID and a.CID = '$user' and SStatus = 2";
+$result3 = $conn->query($sql3);
 $total = 0;
-if (mysqli_num_rows($result) == 0 && mysqli_num_rows($result2) == 0){
+if (mysqli_num_rows($result) == 0 && mysqli_num_rows($result2) == 0 && mysqli_num_rows($result3) == 0){
     echo "You have no order history.";
 }
 else{
@@ -73,10 +75,11 @@ echo "<table border = '1'>
 else {
     echo "You have no pending orders.";
 }
-?>
-<h2>Shipped Orders</h2>
-<?php
+
 if (mysqli_num_rows($result2) != 0){
+?>
+<h2>Orders waiting to ship</h2>
+<?php
 
 echo "<table border = '1'>
     <tr>
@@ -89,6 +92,40 @@ echo "<table border = '1'>
     
 
     while($row = mysqli_fetch_array($result2))
+    {
+        $OrderID= $row['OrderID'];
+        echo "<tr>";
+        echo "<td>" . $row['OrderID'] . "</td>";
+        echo "<td>" . $row['ship_address'] . "</td>";
+        echo "<td>" . $row['Odate'] . "</td>";
+        echo "<td>$" . $row['price_sum'] . "</td>";
+        echo "<td>" . $row['items'] . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    echo "<br>";
+
+    mysqli_close($mysqli);
+}
+
+if (mysqli_num_rows($result3) != 0){
+    ?>
+    <h2>Shipped Orders</h2>
+    <?php
+
+echo "<table border = '1'>
+    <tr>
+    <th>OrderID</th>
+    <th>Shipping Address</th>
+    <th>Order Date</th>
+    <th>Cost</th>
+    <th>Items Ordered</th>
+    </tr>";
+    
+
+    while($row = mysqli_fetch_array($result3))
     {
         $OrderID= $row['OrderID'];
         echo "<tr>";

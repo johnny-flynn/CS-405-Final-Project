@@ -27,20 +27,21 @@ $user = $_GET['user'];
 echo $user;
 ?>
 <form action = "" method="post">
-    Filter by searching for the Product ID or the Name: <br>
+    Filter by searching for the Product ID, Name, or Category: <br>
     To see all products, hit the submit button<br>
     Search: <input type = "text" name = "search">
     <input type = "submit">
 </form>
 <?php
 $inputSearchText = $_POST["search"];
-$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE (PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
+$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE quantity > 0 AND (cat LIKE '%$inputSearchText%' OR PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
 if (!empty($result)){
 
 
     echo "<table border = '1'>
     <tr>
     <th>ID</th>
+    <th>Category</th>
     <th>Product</th>
     <th>Price</th>
     <th>In Stock</th>
@@ -53,8 +54,9 @@ if (!empty($result)){
         $PID = $row['PID'];
         echo "<tr>";
         echo "<td>" . $row['PID'] . "</td>";
+        echo "<td>" . $row['cat'] . "</td>";
         echo "<td>" . $row['p_name'] . "</td>";
-        echo "<td>" . $row['price'] . "</td>";
+        echo "<td>$" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
         echo "<td>" . $row['review_score'] . "</td>";
         echo "<td>" ?><a href="addtocart.php?item=<?php echo $PID; ?>" class = "btn btn-primary" role="button">Add</a><?php "</td>";

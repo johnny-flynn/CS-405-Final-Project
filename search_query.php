@@ -48,7 +48,7 @@ else {
 	if ($Mresult->num_rows > 0){
 		while($row = $Mresult->fetch_assoc()) {
 			echo "Welcome " . $row["Mname"]. "<br>";
-			header("Location: http://172.31.145.13/shopping_manager.php");
+			header("Location: http://172.31.145.13/shopping_staff.php");
 			die();
 		}
 		exit;

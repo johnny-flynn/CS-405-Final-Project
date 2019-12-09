@@ -6,7 +6,7 @@
 	<input type="submit" value="Logout" />
 </form>
 <form action="allorders.php" method="post">
-	<input type="submit" value="Vew All Orders"/>
+	<input type="submit" value="View All Orders"/>
 </form>
 <form action="add_item.php">
 	<input type="submit" value="Add item" />
@@ -14,6 +14,10 @@
 
 <form action="update_item.php">
 	<input type="submit" value="Update item" />
+</form>
+
+<form action="checkmanager.php">
+	<input type="submit" value="View Stats (Managers)" />
 </form>
 
 <?php
@@ -39,13 +43,14 @@ echo $user;
 </form>
 <?php
 $inputSearchText = $_POST["search"];
-$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE (PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
+$result = mysqli_query($mysqli,"SELECT * FROM Products WHERE (cat LIKE '%$inputSearchText%' OR PID LIKE '%$inputSearchText%' OR p_name LIKE '%$inputSearchText%')ORDER BY PID ASC");
 if (!empty($result)){
 
 
     echo "<table border = '1'>
     <tr>
     <th>ID</th>
+    <th>Category</th>
     <th>Product</th>
     <th>Price</th>
     <th>In Stock</th>
@@ -57,6 +62,7 @@ if (!empty($result)){
         $PID = $row['PID'];
         echo "<tr>";
         echo "<td>" . $row['PID'] . "</td>";
+        echo "<td>" . $row['cat'] . "</td>";
         echo "<td>" . $row['p_name'] . "</td>";
         echo "<td>$" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";

@@ -16,7 +16,7 @@ If you are just looking, please use the "Guest Access" button to continue. Note,
 	<!-- change name to dependent on search_query.php -->
 	Username: <input type="text" name="username">
 	<br/>
-	Password: <input type="text" name="password">
+	Password: <input type="password" name="password">
 	<br/>
 	<input type="submit">
 	<br/>
