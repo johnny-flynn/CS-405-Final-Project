@@ -1,6 +1,6 @@
 <html>
 <body>
-<Title>ToysRUs - Shopping</Title>
+<Title>ToysRUs - Cart</Title>
 <?php
 //include "shopping.php";
 //include "search_query";
@@ -22,10 +22,16 @@ echo $user . "'s Cart";
 	<input type="submit" value="Continue Shopping"/>
 </form>
 <br>
+<form action="processorder.php" method="post">
+    Shipping Address: <input type="text" name="address">
+	<input type="submit" value="Order Now"/>
+</form>
+<br>
 <?php
 //$sql = "SELECT PID FROM Cart WHERE (CID = '$user')";
 $sql = "SELECT a.CartID, b.p_name, b.price from Cart a, Products b where a.PID = b.PID and a.CID = '$user'";
 $result = $conn->query($sql);
+$total = 0;
 //$string = implode(",", $result);
 //$productsincart= msqli_query("SELECT * FROM Products where PID in ('$string')");
 //echo "got here";
@@ -37,22 +43,25 @@ echo "<table border = '1'>
     <tr>
     <th>Product</th>
     <th>Price</th>
-    <th>Remove</th>
+    <th></th>
     </tr>";
     
 
     while($row = mysqli_fetch_array($result))
     {
         $CartID = $row['CartID'];
+        $total += $row['price'];
         echo "<tr>";
         echo "<td>" . $row['p_name'] . "</td>";
-        echo "<td>" . $row['price'] . "</td>";
+        echo "<td><div align=right>$" . $row['price'] . "</div></td>";
         echo "<td>" ?><a href="removefromcart.php?CartID=<?php echo $CartID; ?>" class = "btn btn-primary" role="button">Remove</a><?php "</td>";
         echo "</tr>";
         echo "<tr>";
         echo "</tr>";
     }
     echo "</table>";
+    echo "<br>";
+    echo "Total price: $$total";
 
     mysqli_close($mysqli);
 }
